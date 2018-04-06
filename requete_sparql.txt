@@ -1,0 +1,78 @@
+Quentin Bresson 
+
+Page : http://fr.dbpedia.org/page/Harry_Potter
+Films : http://fr.dbpedia.org/page/Harry_Potter_(films)
+Requete pour obtenir des infos sur l'auteur :
+
+Toutes les infos :
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+       dbpedia-fr:Harry_Potter  dbpedia-owl:author ?author.
+       ?author ?predicate ?object
+}
+
+Brève description de la franchise :
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+       dbpedia-fr:Harry_Potter  dbpedia-owl:abstract ?desc
+       FILTER (LANGMATCHES(LANG(?desc),"FR"))
+}
+
+Brève description de l'oeuvre cinématographique :
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+         <http://fr.dbpedia.org/resource/Harry_Potter_(films)> dbpedia-owl:abstract ?desc
+
+}
+
+Liste des films avec leur réal :
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+        ?film dcterms:subject <http://fr.dbpedia.org/resource/Catégorie:Film_de_Harry_Potter>.
+        ?film dbpedia-owl:director ?director
+}
+
+Une info précise sur l'auteur (se renseigner sur la page pour les triplets) :
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+       dbpedia-fr:Harry_Potter  dbpedia-owl:author ?author.
+       ?author dbpedia-owl:birthDate ?birthdate
+}
+
+Accéder aux données globales de la franchise :
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+       dbpedia-fr:Harry_Potter  ?predicate ?object.
+       FILTER (LANGMATCHES(LANG(?object),"FR"))
+}
+
+Accéder aux données d'un ouvrage en particulier :
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+       ?tome  dbpedia-owl:series dbpedia-fr:Harry_Potter.
+}
+
+Accéder aux personnages-clés mis en scene par la franchise :
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+       ?perso  prop-fr:oeuvre dbpedia-fr:Harry_Potter.
+}
+
+Accéder aux acteurs des films de la franchise :
+(Quand une URI contient des parenthèses, on doit la rentrer en entier, sinon erreur)
+
+prefix db_owl: <http://dbpedia.org/ontology/>
+select * where {
+        ?perso dcterms:subject <http://fr.dbpedia.org/resource/Catégorie:Acteur_de_Harry_Potter>
+}
+
+
+
