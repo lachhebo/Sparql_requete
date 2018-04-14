@@ -28,15 +28,10 @@ ob_start();
 //Si l'URL indique  qu'on est sur la page home, on charge la page correspondante
 if($page === 'home'){
 	require '../pages/home.php';
-<<<<<<< HEAD
+
 //Pareil pour la recherche
 } elseif ($page === 'recherche' ) {
 	$_GET['query'] = $query;
-=======
-//Pareil pour la page de consultation des offres
-} elseif ($p === 'recherche' ) {
-	$_GET['q'] = $q;
->>>>>>> a7a4e8ff5d2db7c1b398b5a0ad5337ce3d335bde
 	require '../pages/recherche.php';
 } else{  //Sinon on redirige vers la page d'accueil
 	require '../pages/home.php';
