@@ -1,10 +1,10 @@
 
 
-<div class="liste_offre"> 
+<div class="liste_offre">
 	<div class= "row">
 		<div class="col-xs-8" id="zone_affichage">
 			<h1 > Recherche resultat : </h1>
-			<?php 
+			<?php
 				//S'il y a une requête de faite dans l'URL
 				if(isset($_GET['q']) AND !empty($_GET['q'])) {
 					//On récupère les mots-clés
@@ -19,7 +19,7 @@
 
 					//Pour chaque résultat de la recherche
 					foreach (App\Table\Personnage::recherche($mot_cle) as $resultcandidat):
-			?> 
+			?>
 						<!--On affiche une brève description du candidat-->
 						<h2><a href="<?= $resultcandidat->getURL() ?>"><?= $resultcandidat->get_nom(); ?></a> </h2>
 						<p><em><?=  $resultcandidat->get_prenom() ?> </em></p>
@@ -44,7 +44,7 @@
 							<option>L'adresse du candidat</option>
 						</select>
 						<p>les mots :</p>
-						<input type="search" class="form-control" id="input_search_emploi" placeholder="Ex : Gérard, Bayonne, C++ ..." name = "zone_recherche">	
+						<input type="search" class="form-control" id="input_search_emploi" placeholder="Ex : Gérard, Bayonne, C++ ..." name = "zone_recherche">
 
 						<div class="divider"></div>
 

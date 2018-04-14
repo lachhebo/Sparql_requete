@@ -1,24 +1,5 @@
 <?php
 
-//Si l'utilisateur est connecté
-if(isset($_POST['identififiant']) and isset($_POST['password'])) {
-	//On crée un objet Personnage via l'id et le password existant
-	$initie = new App\Table\Personnage(null, null,$_POST["password"],null,null, $_POST['identififiant'],null);
-	//On tente de connecter l'utilisateur via l'id et le password fourni
-	$test = $initie->connexion();
-	//Si la connection échoue, on détruit l'objet Personnage crée précédemment
-	if($test==1){
-		unset($initie);
-	}
-	//Si la connexion réussit, on récupère les données de l'utilisateur (nom, prénom ...) et on lui crée une session
-	else{
-		$initie->recuperer_donnee();
-		$initie->session();
-	}
-}
-
-
-
 ?>
 
 
@@ -27,7 +8,6 @@ if(isset($_POST['identififiant']) and isset($_POST['password'])) {
 		<meta charset="utf-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<meta name="description">
 			<meta name="author">
 
 			<link rel="stylesheet" href="./css/projet_emploi.css" type="text/css"/>
