@@ -15,18 +15,24 @@ p {
 
 /* CSS for ID's */
 
-#site_title {
-	position: fixed;
-  left: 50%;
-  top: 30%;
-  transform: translate(-50%, -50%);
-}
-
 #input_recherche {
+	text-align:center;
 	width:50%;
 	position: fixed;
   left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+}
+
+#site_title {
+	position: fixed;
+  left: 50%;
+  top: 30%;
   transform: translate(-50%, -50%);
 }
 
