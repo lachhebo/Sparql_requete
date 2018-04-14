@@ -18,9 +18,9 @@ p {
 #input_recherche {
 	text-align:center;
 	width:50%;
-	position: fixed;
   left: 50%;
-  top: 50%;
+  top: 40%;
+	position:absolute;
   transform: translate(-50%, -50%);
 }
 
@@ -29,10 +29,14 @@ p {
   width: 100%;
 }
 
+#search_form {
+
+}
+
 #site_title {
-	position: fixed;
   left: 50%;
-  top: 30%;
+  top: 20%;
+	position:absolute;
   transform: translate(-50%, -50%);
 }
 
@@ -145,7 +149,7 @@ p {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	opacity: 0.6;
+
 }
 
 .parallax1 {
