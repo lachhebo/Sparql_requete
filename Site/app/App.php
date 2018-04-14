@@ -8,25 +8,11 @@ On peut citer les informations relatives à la bdd ou encore le nom du site
 
 class App{
 
-	//Constante : données relatives à la connexion à la base de données
-	const DB_NAME = 'espace_membre';
-	const DB_USER = 'root';
-	const DB_PASS = '1234azer';
-	const DB_HOST = 'localhost';
-
 	//Variables statiques représentant la base de données à laquelle on se connecte, ainsi que le nom de notre site
-	private static $database;
 	private static $title = 'Projet Emploi';
 
-	//Fonction d'initialisation de la connexion à la bdd
-	public static function getDb(){
-		//Si on est pas déjç connecté à la bdd, on crée une connexion
-		if(self::$database == null ){
-			self::$database = new Database(self::DB_HOST, self::DB_NAME, self::DB_USER, self::DB_PASS);
-		}
-		//On retourne la variable décrivant la bdd
-		return self::$database;
-	}
+	private static $graphe_potter = 'http://fr.dbpedia.org/page/Harry_Potter';
+	private static $graphe_potter_film = 'http://fr.dbpedia.org/page/Harry_Potter_(films)'
 
 	//Si l'utilisateur aboutit à une page non existante, par exemple en jouant avec l'URL, on renvoie une erreur 404
 	public static function notFound(){
