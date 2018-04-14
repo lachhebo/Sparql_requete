@@ -16,7 +16,7 @@ class App{
 
 	//Variables statiques représentant la base de données à laquelle on se connecte, ainsi que le nom de notre site
 	private static $database;
-	private static $title = 'Projet Emploi';
+	private static $title = 'Harry Fansub';
 
 	//Fonction d'initialisation de la connexion à la bdd
 	public static function getDb(){
@@ -41,6 +41,6 @@ class App{
 
 	//Permet de changer le sous-titre, suivant, la page sur laquelle on se trouve
 	public static function setTitle($title){
-		self::$title = 'Projet Emploi :'. $title;
+		self::$title = 'Harry Fansub'. $title;
 	}
 }
