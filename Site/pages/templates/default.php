@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -5,6 +6,23 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description">
 		<meta name="author">
+=======
+<?php
+
+?>
+
+
+<html>
+	<head>
+		<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta name="author">
+
+			<link rel="stylesheet" href="./css/projet_emploi.css" type="text/css"/>
+
+			<meta name="viewport" contents="width=device-width, initial-scale=1">
+>>>>>>> a7a4e8ff5d2db7c1b398b5a0ad5337ce3d335bde
 
 		<link rel="stylesheet" href="./css/harryFans.css" type="text/css"/>
 
