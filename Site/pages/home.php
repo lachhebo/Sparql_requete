@@ -1,6 +1,6 @@
 <!--
 "Code" HTML correspondant au contenu de la page d'accueil
-Contient la parallax, ainsi que les liens vers les différentes pages du site
+Contient la parallax, ainsi que la barre de recherche
 
 -->
 
