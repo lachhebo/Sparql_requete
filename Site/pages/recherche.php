@@ -34,6 +34,12 @@ $getFilms = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
   					         ?film dcterms:subject <http://fr.dbpedia.org/resource/Catégorie:Film_de_Harry_Potter>.
   					         ?film dbpedia-owl:director ?director
   					 }';
+
+$getPersos = 'prefix dbpedia-fr: <http://fr.dbpedia.org/resource/>
+							prefix prop-fr: <http://fr.dbpedia.org/property/>
+							select * where {
+       					?perso  prop-fr:oeuvre dbpedia-fr:Harry_Potter.
+		 				  }';
 //On utilise la fonction pour faire une requête en lecture
 $resultReqAuthorName = $harryPotterEndpoint->query($getAuthorName, 'rows');
 //On vérifie qu’il n'y a pas d'erreur sinon on stoppe le programme et on affiche les erreurs
@@ -49,6 +55,7 @@ $err = $harryPotterEndpoint->getErrors();
 if ($err) {$harryPotterDesc='Unknown';} else $harryPotterDesc = $resultReqHarryPotterDesc[0]['desc'];
 
 $resultReqFilms = $harryPotterEndpoint->query($getFilms, 'rows');
+$resultReqPersos = $harryPotterEndpoint->query($getPersos, 'rows');
 
 ?>
 
@@ -71,7 +78,76 @@ $resultReqFilms = $harryPotterEndpoint->query($getFilms, 'rows');
 
 	<h2>Les principaux personnages d'Harry Potter</h2>
 
-	
+	<?php
+
+		$cpt = 1;
+		foreach($resultReqPersos as $perso) {
+			$persoName = 'select * where {
+												<'. $perso['perso'] .'> rdfs:label ?name
+												FILTER (LANGMATCHES(LANG(?name),"FR"))
+										}';
+			$resultReqPersoName = $harryPotterEndpoint->query($persoName, 'rows');
+
+			$persoDesc = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+										select * where {
+												<'. $perso['perso'] .'> dbpedia-owl:abstract ?desc
+										}';
+			$resultReqPersoDesc = $harryPotterEndpoint->query($persoDesc, 'rows');
+
+			$persoActorUri = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+												 select * where {
+													 	<'. $perso['perso'] .'> dbpedia-owl:performer ?actor
+												 }';
+			$resultReqpersoActorUri = $harryPotterEndpoint->query($persoActorUri, 'rows');
+
+			$PersoActivity = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+												 prefix prop-fr: <http://fr.dbpedia.org/property/>
+												 select * where {
+													 	<'. $perso['perso'] .'> prop-fr:activité ?activite
+												 }';
+			$resultReqPersoActivity = $harryPotterEndpoint->query($PersoActivity, 'rows');
+
+			echo '<div class="container-fluid perso-infos">';
+			echo 	'<h3>'. $resultReqPersoName[0]['name'] .'</h3>';
+			echo 	'<p class="text">'. $resultReqPersoDesc[0]['desc'] .'</p>';
+			echo '<div class="row">';
+			echo '<div class="col-xs-6">';
+			echo 		'<p>Acteur(s) / Actrice(s) : </p>';
+			echo  	'<ul>';
+			foreach ($resultReqpersoActorUri as $actor) {
+				$actorName = 'select * where {
+												<'. $actor['actor'] .'> rdfs:label ?name
+												FILTER (LANGMATCHES(LANG(?name),"FR"))
+										 }';
+				$resultReqpersoActorName = $harryPotterEndpoint->query($actorName, 'rows');
+				echo 			'<li>'. $resultReqpersoActorName[0]['name'] .'</li>';
+			};
+			echo 		'</ul>';
+			echo 		'</div>';
+			echo 		'<div class="col-xs-6">';
+			if (!empty($resultReqPersoActivity)){
+				echo 		'<p>Occupation(s) :</p>';
+				echo  	'<ul>';
+				foreach ($resultReqPersoActivity as $activite) {
+					echo 			'<li>'. $activite['activite'] .'</li>';
+				};
+				echo 		'</ul>';
+			}else echo 		'<p>Occupation(s) : Aucune connue</p>';
+			echo 		'</div>';
+			echo '</div>';
+			echo '';
+			echo '';
+			echo '';
+			echo '';
+			echo '';
+			echo '';
+			echo '';
+			echo '</div>';
+
+			$cpt=$cpt+1;
+		}
+
+	?>
 
 	<h2>Harry Potter au cinema</h2>
 	<div class="panel-group" id="accordion">
@@ -79,28 +155,22 @@ $resultReqFilms = $harryPotterEndpoint->query($getFilms, 'rows');
 			$cpt = 1;
 			foreach($resultReqFilms as $film) {
 
-
-
-				$filmTitle = 'prefix dc: <http://purl.org/dc/elements/1.1/>
-											select * where {
-  					         			<'. $resultReqFilms[$cpt-1]['film'] .'> dc:title ?title
-  					 	 				}';
+				$filmTitle = 'select * where {
+													<'. $film['film'] .'> rdfs:label ?title
+													FILTER (LANGMATCHES(LANG(?title),"FR"))
+											}';
 				$resultReqFilmTitle = $harryPotterEndpoint->query($filmTitle, 'rows');
 
 				$filmDesc = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
 										 select * where {
-  					         			<'. $resultReqFilms[$cpt-1]['film'] .'> dbpedia-owl:abstract ?desc
+  					         			<'. $film['film'] .'> dbpedia-owl:abstract ?desc
   					 	 			 }';
 				$resultReqFilmDesc = $harryPotterEndpoint->query($filmDesc, 'rows');
-
 
 				echo '<div class="panel panel-default">';
 				echo 		'<div class="panel-heading">';
 				echo 				'<h4 class="panel-title">';
-				if ($resultReqFilmTitle[0]['title'] == "Harry Potter")
-					echo 					'<a data-toggle="collapse" data-parent="#accordion" href="#collapse'. $cpt .'">'. $resultReqFilmTitle[0]['title'] .' '. $resultReqFilmTitle[1]['title'] .'</a>';
-				else echo 			'<a data-toggle="collapse" data-parent="#accordion" href="#collapse'. $cpt .'">'. $resultReqFilmTitle[1]['title'] .' '. $resultReqFilmTitle[0]['title'] .'</a>';
-
+				echo 					'<a data-toggle="collapse" data-parent="#accordion" href="#collapse'. $cpt .'">'. $resultReqFilmTitle[0]['title'] .'</a>';
 				echo 				'</h4>';
 				echo 		'</div>';
 				echo 		'<div id="collapse'. $cpt .'" class="panel-collapse collapse">';
@@ -117,49 +187,8 @@ $resultReqFilms = $harryPotterEndpoint->query($getFilms, 'rows');
 
 				$cpt = $cpt+1;
 			}
-
 		?>
-		<!--
-		<div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Titre 1</a>
-        </h4>
-      </div>
-      <div id="collapse1" class="panel-collapse collapse in">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
 
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Titre 2</a>
-        </h4>
-      </div>
-      <div id="collapse2" class="panel-collapse collapse">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Titre 3</a>
-        </h4>
-      </div>
-      <div id="collapse3" class="panel-collapse collapse">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
-  </div>
--->
 		<!--
 		<h3>My Google Maps Demo</h3>
 		  <div id="map"></div>
