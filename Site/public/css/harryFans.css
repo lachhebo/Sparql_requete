@@ -120,6 +120,15 @@ p {
 	font-style:italic;
 }
 
+.failed_recherche{
+
+	color: red;
+	width: 100%;
+	font-size: 50px;
+	padding: : 50%;
+	margin-top: 30%;
+
+}
 .img_album {
 	max-height: 300px;
 	height:100%;

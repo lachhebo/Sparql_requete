@@ -214,7 +214,7 @@ $resultReqPersos = $harryPotterEndpoint->query($getPersos, 'rows');
 <?php else: ?>
 	<div class="container">
 		<div class="entete-title">
-			<h1 class="text-center">Désolé, aucun résultat pour la recherche "<?php echo $_GET['query']; ?>"</h1>
+			<h1 class="failed_recherche">Désolé,aucun résultat pour la recherche "<?php echo $_GET['query']; ?>"</h1>
 		</div>
 	</div>
 <?php endif ?>
