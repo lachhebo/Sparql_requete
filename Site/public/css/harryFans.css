@@ -168,6 +168,13 @@ p {
 	padding: 0px 0px;
 }
 
+.search_margin {
+	margin-top:10%;
+	margin-left:15%;
+	margin-right:15%;
+	color:red;
+}
+
 .text-green {
 	color:green !important;
 }

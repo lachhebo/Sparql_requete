@@ -1,93 +1,220 @@
 
+<?php
+//on cherche la classe
+require "../php4store/Endpoint.php";
+//on instancie l’objet
+$harryPotterEndpoint = new Endpoint('http://fr.dbpedia.org/');
+//on fabrique les requêtes SPARQL
+$getAuthorName = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+					 prefix dbpedia-fr: <http://fr.dbpedia.org/resource/>
+					 prefix prop-fr: <http://fr.dbpedia.org/property/>
+					 select ?object where {
+       					 dbpedia-fr:Harry_Potter  dbpedia-owl:author ?author.
+       					 ?author prop-fr:nom ?object
+								 FILTER (LANGMATCHES(LANG(?object),"FR"))
+					 }';
+$getAuthorDesc = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+					 prefix dbpedia-fr: <http://fr.dbpedia.org/resource/>
+					 select ?object where {
+       					 dbpedia-fr:Harry_Potter  dbpedia-owl:author ?author.
+       					 ?author dbpedia-owl:abstract ?object
+								 FILTER (LANGMATCHES(LANG(?object),"FR"))
+					 }';
 
-<div class="liste_offre">
-	<div class= "row">
-		<div class="col-xs-8" id="zone_affichage">
-			<h1 > Recherche resultat : </h1>
-			<?php
-				//S'il y a une requête de faite dans l'URL
-				if(isset($_GET['q']) AND !empty($_GET['q'])) {
-					//On récupère les mots-clés
-					$mot_cle = $_GET["q"] ;
-				}
-			?>
-			<?php
-				//S'il y a une requête de faite dans l'URL
-				if(isset($_GET['q']) AND !empty($_GET['q'])) {
-					//On récupère les mots-clés
-					$mot_cle = $_GET["q"];
+$getHarryPotterDesc = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+					 prefix dbpedia-fr: <http://fr.dbpedia.org/resource/>
+					 select ?desc where {
+       					 dbpedia-fr:Harry_Potter dbpedia-owl:abstract ?desc.
+								 FILTER (LANGMATCHES(LANG(?desc),"FR"))
+					 }';
 
-					//Pour chaque résultat de la recherche
-					foreach (App\Table\Personnage::recherche($mot_cle) as $resultcandidat):
-			?>
-						<!--On affiche une brève description du candidat-->
-						<h2><a href="<?= $resultcandidat->getURL() ?>"><?= $resultcandidat->get_nom(); ?></a> </h2>
-						<p><em><?=  $resultcandidat->get_prenom() ?> </em></p>
-						<p><?=  $resultcandidat->getExtrait(); ?></p>
-				<?php endforeach; };  ?>
+$getFilms = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+						 prefix dcterms: <http://purl.org/dc/terms/>
+  					 select * where {
+  					         ?film dcterms:subject <http://fr.dbpedia.org/resource/Catégorie:Film_de_Harry_Potter>.
+  					         ?film dbpedia-owl:director ?director
+  					 }';
+
+$getPersos = 'prefix dbpedia-fr: <http://fr.dbpedia.org/resource/>
+							prefix prop-fr: <http://fr.dbpedia.org/property/>
+							select * where {
+       					?perso  prop-fr:oeuvre dbpedia-fr:Harry_Potter.
+		 				  }';
+//On utilise la fonction pour faire une requête en lecture
+$resultReqAuthorName = $harryPotterEndpoint->query($getAuthorName, 'rows');
+//On vérifie qu’il n'y a pas d'erreur sinon on stoppe le programme et on affiche les erreurs
+$err = $harryPotterEndpoint->getErrors();
+if ($err) {$authorName='Unknown';} else $authorName = $resultReqAuthorName[0]['object'];
+
+$resultReqAuthorDesc = $harryPotterEndpoint->query($getAuthorDesc, 'rows');
+$err = $harryPotterEndpoint->getErrors();
+if ($err) {$authorDesc='Unknown';} else $authorDesc = $resultReqAuthorDesc[0]['object'];
+
+$resultReqHarryPotterDesc = $harryPotterEndpoint->query($getHarryPotterDesc, 'rows');
+$err = $harryPotterEndpoint->getErrors();
+if ($err) {$harryPotterDesc='Unknown';} else $harryPotterDesc = $resultReqHarryPotterDesc[0]['desc'];
+
+$resultReqFilms = $harryPotterEndpoint->query($getFilms, 'rows');
+$resultReqPersos = $harryPotterEndpoint->query($getPersos, 'rows');
+
+?>
+
+<?php if (strtolower($_GET['query']) == "harry potter"): ?>
+
+	<div class="container">
+		<div class="entete-title">
+			<h1 class="text-center">Votre recherche : <?php echo $_GET['query']; ?></h1>
 		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<p>Qu'est-ce que Harry Potter ?</p>
+				<p> <?php echo $harryPotterDesc; ?></p>
+			</div>
+			<div class="col-xs-6">
+				<p><?php echo $authorName; ?>
+				<p><?php echo $authorDesc; ?>
+			</div>
+	</div>
 
+	<h2>Les principaux personnages d'Harry Potter</h2>
 
+	<?php
 
-		<!--Formulaire permettant d'effectuer des recherches sur les candidats-->
-		<div class="col-xs-4" class="list_offre_2">
-			<ul>
-				<div class="div-header">
-					<p><span class="glyphicon glyphicon-search"></span> Effectuez une recherche de candidats :</p>
-				</div>
-				<form class="form" method="POST" action="" >
-					<div class="form-group">
-						<p>Chercher dans :</p>
-						<select class="form-control" id="emploi_choix_search">
-							<option>Le nom / prénom du candidat</option>
-							<option>Les compétences techniques du candidat</option>
-							<option>L'adresse du candidat</option>
-						</select>
-						<p>les mots :</p>
-						<input type="search" class="form-control" id="input_search_emploi" placeholder="Ex : Gérard, Bayonne, C++ ..." name = "zone_recherche">
+		$cpt = 1;
+		foreach($resultReqPersos as $perso) {
+			$persoName = 'select * where {
+												<'. $perso['perso'] .'> rdfs:label ?name
+												FILTER (LANGMATCHES(LANG(?name),"FR"))
+										}';
+			$resultReqPersoName = $harryPotterEndpoint->query($persoName, 'rows');
 
-						<div class="divider"></div>
+			$persoDesc = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+										select * where {
+												<'. $perso['perso'] .'> dbpedia-owl:abstract ?desc
+										}';
+			$resultReqPersoDesc = $harryPotterEndpoint->query($persoDesc, 'rows');
 
-						<p>Niveau d'étude :</p>
-						<div class="checkbox">
-							<label><input type="checkbox" value="">Bac</label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" value="">Bac +2 / +3</label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" value="">Bac +5 et supérieur</label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" value="">Autre</label>
-						</div>
+			$persoActorUri = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+												 select * where {
+													 	<'. $perso['perso'] .'> dbpedia-owl:performer ?actor
+												 }';
+			$resultReqpersoActorUri = $harryPotterEndpoint->query($persoActorUri, 'rows');
 
-						<div class="divider"></div>
+			$PersoActivity = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+												 prefix prop-fr: <http://fr.dbpedia.org/property/>
+												 select * where {
+													 	<'. $perso['perso'] .'> prop-fr:activité ?activite
+												 }';
+			$resultReqPersoActivity = $harryPotterEndpoint->query($PersoActivity, 'rows');
 
-						<p>Domaines d'activité :</p>
-						<select class="big-select" name="secteur_activite[]" size="5" multiple="multiple">
-							<option>Agroalimentaire</option>
-							<option>Banque / Assurance</option>
-							<option>Bois / Papier / Carton / Imprimerie</option>
-							<option>BTP / Matériaux de construction</option>
-							<option>Chimie / Parachimie</option>
-							<option>Commerce / Négoce / Distribution</option>
-							<option>Edition / Communication / Multimédia</option>
-							<option>Electronique / Electricité</option>
-							<option>Etudes et conseils</option>
-							<option>Industrie pharmaceutique</option>
-							<option>Informatique / Télécoms</option>
-							<option>Machines et équipements / Automobile</option>
-							<option>Métallurgie / Travail du métal</option>
-							<option>Plastique / Caoutchouc</option>
-							<option>Services aux entreprises</option>
-							<option>Textile / Habillement / Chaussure</option>
-							<option>Transports / Logistique</option>
-						</select>
-						<button type="button" class="btn btn-default btn-emploi-search"> <span class="glyphicon glyphicon-search"></span> Rechercher</button>
-					</div>
-				</form>
-			</ul>
+			echo '<div class="container-fluid perso-infos">';
+			echo 	'<h3>'. $resultReqPersoName[0]['name'] .'</h3>';
+			echo 	'<p class="text">'. $resultReqPersoDesc[0]['desc'] .'</p>';
+			echo '<div class="row">';
+			echo '<div class="col-xs-6">';
+			echo 		'<p>Acteur(s) / Actrice(s) : </p>';
+			echo  	'<ul>';
+			foreach ($resultReqpersoActorUri as $actor) {
+				$actorName = 'select * where {
+												<'. $actor['actor'] .'> rdfs:label ?name
+												FILTER (LANGMATCHES(LANG(?name),"FR"))
+										 }';
+				$resultReqpersoActorName = $harryPotterEndpoint->query($actorName, 'rows');
+				echo 			'<li>'. $resultReqpersoActorName[0]['name'] .'</li>';
+			};
+			echo 		'</ul>';
+			echo 		'</div>';
+			echo 		'<div class="col-xs-6">';
+			if (!empty($resultReqPersoActivity)){
+				echo 		'<p>Occupation(s) :</p>';
+				echo  	'<ul>';
+				foreach ($resultReqPersoActivity as $activite) {
+					echo 			'<li>'. $activite['activite'] .'</li>';
+				};
+				echo 		'</ul>';
+			}else echo 		'<p>Occupation(s) : Aucune connue</p>';
+			echo 		'</div>';
+			echo '</div>';
+			echo '';
+			echo '';
+			echo '';
+			echo '';
+			echo '';
+			echo '';
+			echo '';
+			echo '</div>';
+
+			$cpt=$cpt+1;
+		}
+
+	?>
+
+	<h2>Harry Potter au cinema</h2>
+	<div class="panel-group" id="accordion">
+		<?php
+			$cpt = 1;
+			foreach($resultReqFilms as $film) {
+
+				$filmTitle = 'select * where {
+													<'. $film['film'] .'> rdfs:label ?title
+													FILTER (LANGMATCHES(LANG(?title),"FR"))
+											}';
+				$resultReqFilmTitle = $harryPotterEndpoint->query($filmTitle, 'rows');
+
+				$filmDesc = 'prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+										 select * where {
+  					         			<'. $film['film'] .'> dbpedia-owl:abstract ?desc
+  					 	 			 }';
+				$resultReqFilmDesc = $harryPotterEndpoint->query($filmDesc, 'rows');
+
+				echo '<div class="panel panel-default">';
+				echo 		'<div class="panel-heading">';
+				echo 				'<h4 class="panel-title">';
+				echo 					'<a data-toggle="collapse" data-parent="#accordion" href="#collapse'. $cpt .'">'. $resultReqFilmTitle[0]['title'] .'</a>';
+				echo 				'</h4>';
+				echo 		'</div>';
+				echo 		'<div id="collapse'. $cpt .'" class="panel-collapse collapse">';
+				echo 			'<div class="panel-body">';
+				echo					'<div class="row">';
+				echo 						'<div class="col-xs-8">';
+				echo 							'<h3> Description </h3>';
+				echo 							'<p> '. $resultReqFilmDesc[0]['desc'] .' </p>';
+				echo 						'</div>';
+				echo 					'</div>';
+				echo 			'</div>';
+				echo 		'</div>';
+				echo 	'</div>';
+
+				$cpt = $cpt+1;
+			}
+		?>
+
+		<!--
+		<h3>My Google Maps Demo</h3>
+		  <div id="map"></div>
+		  <script>
+				function initMap() {
+					var uluru = {lat: -25.363, lng: 131.044};
+					var map = new google.maps.Map(document.getElementById('map'), {
+						zoom: 4,
+						center: uluru
+					});
+					var marker = new google.maps.Marker({
+						position: uluru,
+						map: map
+					});
+				}
+			</script>
+		  <script async defer
+		  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0GQT47hdWLzWuNKBP7-12In5XKNJtVV8&callback=initMap">
+		  </script>
+		-->
+	</div>
+
+<?php else: ?>
+	<div class="container">
+		<div class="entete-title">
+			<h1 class="text-center">Désolé, aucun résultat pour la recherche "<?php echo $_GET['query']; ?>"</h1>
 		</div>
 	</div>
-</div>
+<?php endif ?>
