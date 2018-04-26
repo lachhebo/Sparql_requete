@@ -70,10 +70,10 @@ Contient la parallax, ainsi que la barre de recherche
 
 <div class="parallax parallax3"></div>
 <div class="container-fluid parallax-container">
-	<h1 class="centered">Recruteurs, publiez vos offres d'emploi</h1>
+	<h1 class="centered">Des ennemis qui ont marqués les fans</h1>
 	<p class='text-center'>
-	Parce que nous considérons le travail de recruteur fondamental pour la bonne santé d'une entreprise, nous vous proposons sur ce site divers outils afin de trouver les profils qui correspondent à vos attentes.
-	En effet vous pouvez non seulement poster des offres sur le site, mais aussi consulter les profils de candidats enregistrés selon leurs expériences, leur domaine d'activité, etc.
+	Harry, Hermione et Ronald (le roux) vont affronter pendant plus de 7 ans l'homme dont personne ne doit prononcer le nom: Tom Jedusor et ses diaboliques acolytes qui veulent assujetir
+	le monde des sorcier et le mettre à leurs bottes (avouer que vous aussi, vous les aimez bien).
 	</p>
 </div>
 
