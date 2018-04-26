@@ -3,13 +3,20 @@
 Contient la parallax, ainsi que les liens vers les différentes pages du site
 
 -->
+<div class="parallax parallax1">
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get" id="search_form">
+		<h1 id="site_title">Harry Fansub</h1>
+		<input name='query' class="form-control input-lg" id="input_recherche" type="text" placeholder="Rechercher">
+		<input type="hidden" name="p" value="recherche">
+	</form>
+</div>
 
-<div class="parallax parallax1"></div>
+<div class="upper">
 
 <div class="container-fluid parallax-container">
 	<h1 class="centered">Le site Projet Emploi</h1>
 	<p>Dans une société en constante évolution, il peut être difficile de trouver sa place. Les opportunités de rentrer dans le monde du travail peuvent sembler rare. Cette plateforme s'est donné pour mission de permettre aux entreprises et aux demandeurs d'emploi de communiquer plus aisément.
-	Ainsi nous nous sommes donnés pour mission de réunir demandeurs d'emploi et recruteurs, et de leur offrir une plateforme sur laquelle ils puissent interagir.
+	Ainsi nous nous sommes donnés pour mission de réunir demandeurs d'emploi eint recruteurs, et de leur offrir une plateforme sur laquelle ils puissent interagir.
 	</p>
 </div>
 
@@ -17,15 +24,15 @@ Contient la parallax, ainsi que les liens vers les différentes pages du site
 	<div class="container">
 		<div class="row">
 			<div class="card">
-				<a href="#"><img src="./images/find_job.png" class="img_album" alt="Photo de montagne" data-holder-rendered="true" /></a>
+				<a href="#"><img src="./images/dumbledore_portrait.jpg" class="img_album" alt="Photo de montagne" data-holder-rendered="true" /></a>
 				<p class="card-text">Consultez nos offres d'emploi concernant des domaines divers et variés, et trouvez l'emploi qui vous correspond.</p>
 			</div>
 			<div class="card">
-				<a href="#"><img class="img_album" src="./images/profil_candidat.png" alt="Photo de montagne" /></a>
+				<a href="#"><img class="img_album" src="./images/hogwart.png" alt="Photo de montagne" /></a>
 				<p class="card-text">Inscrivez-vous sur le site en tant que candidat pour pouvoir postuler à nos offres d'emploi.</p>
 			</div>
 			<div class="card">
-				<a href="#"><img class="img_album" src="./images/contact_rh.png" alt="Photo de montagne" /></a>
+				<a href="#"><img class="img_album" src="./images/magic.png" alt="Photo de montagne" /></a>
 				<p class="card-text">Entrez en contact avec nos recruteurs et commencez dès maintenant à élargir votre réseau professionnel.</p>
 			</div>
 		</div>
@@ -45,15 +52,15 @@ Contient la parallax, ainsi que les liens vers les différentes pages du site
 	<div class="container">
 		<div class="row">
 			<div class="card">
-				<a href="#"><img src="./images/postuler_offre.png" class="img_album" alt="Photo de montagne" data-holder-rendered="true" /></a>
+				<a href="#"><img src="./images/harry_portrait.jpg" class="img_album" alt="Photo de montagne" data-holder-rendered="true" /></a>
 				<p class="card-text">Postulez aux offres d'emploi de nos recruteurs.</p>
 			</div>
 			<div class="card">
-				<a href="#"><img class="img_album" src="./images/modif_profil.png" alt="Photo de montagne" /></a>
+				<a href="#"><img class="img_album" src="./images/hermione_portrait.jpg" alt="Photo de montagne" /></a>
 				<p class="card-text">Modifier votre profil à mesure que vous accumulez des compétences.</p>
 			</div>
 			<div class="card">
-				<a href="#"><img class="img_album" src="./images/rep_candidature.jpg" alt="Photo de montagne" /></a>
+				<a href="#"><img class="img_album" src="./images/ron_portrait.jpg" alt="Photo de montagne" /></a>
 				<p class="card-text">Consulter les réponses à vos candidatures.</p>
 			</div>
 		</div>
@@ -86,4 +93,6 @@ Contient la parallax, ainsi que les liens vers les différentes pages du site
 			</div>
 		</div>
 	</div>
+</div>
+
 </div>

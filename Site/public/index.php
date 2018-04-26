@@ -10,14 +10,14 @@ session_start();
 
 //p pour path. $_GET['p'] permet de récupérer la route/l'URL actuelle
 if(isset($_GET['p'])){
-	$p = $_GET['p'];
+	$page = $_GET['p'];
  } else {
- 	$p = 'home';
+ 	$page = 'home';
  }
 
 //q pour query. On récupère la demande pour des ressources secondaires si la demande existe.
-if(isset($_GET['q'])){
-	$q = $_GET['q'];
+if(isset($_GET['query'])){
+	$query = $_GET['query'];
 }
 
 
@@ -26,11 +26,12 @@ if(isset($_GET['q'])){
 ob_start();
 
 //Si l'URL indique  qu'on est sur la page home, on charge la page correspondante
-if($p === 'home'){
+if($page === 'home'){
 	require '../pages/home.php';
-//Pareil pour la page de consultation des offres
-} elseif ($p === 'recherche' ) {
-	$_GET['q'] = $q;
+
+//Pareil pour la recherche
+} elseif ($page === 'recherche' ) {
+	$_GET['query'] = $query;
 	require '../pages/recherche.php';
 } else{  //Sinon on redirige vers la page d'accueil
 	require '../pages/home.php';
