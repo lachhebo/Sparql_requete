@@ -71,10 +71,10 @@ Contient la parallax, ainsi que la barre de recherche
 
 <div class="parallax parallax3"></div>
 <div class="container-fluid parallax-container">
-	<h1 class="centered">Recruteurs, publiez vos offres d'emploi</h1>
+	<h1 class="centered">Les ténèbres de la magie</h1>
 	<p class='text-center'>
-	Parce que nous considérons le travail de recruteur fondamental pour la bonne santé d'une entreprise, nous vous proposons sur ce site divers outils afin de trouver les profils qui correspondent à vos attentes.
-	En effet vous pouvez non seulement poster des offres sur le site, mais aussi consulter les profils de candidats enregistrés selon leurs expériences, leur domaine d'activité, etc.
+	Ce qui fait une bonne histoire, et plus particulièrement les bons héros, ce sont les bons antagonistes. En effet le monde des sorciers n'est pas sans danger.
+	Outre les créatures mystiques et légendes oubliées, rien n'est plus craint en ce monde que le mage noir dont il est interdit de prononcer le nom, accompagné de ses fidèles serviteurs : les mangemorts.
 	</p>
 </div>
 
@@ -83,15 +83,15 @@ Contient la parallax, ainsi que la barre de recherche
 		<div class="row">
 			<div class="card">
 				<a href="#"><img src="./images/bellatrix_portrait.jpg" class="img_album" alt="Photo de montagne" data-holder-rendered="true" /></a>
-				<p class="card-text">Créer vos offres d'emploi et diffusez-les sur notre plateforme.</p>
+				<p class="card-text">La plus fidèle servante des ténèbres, Bellatrix Lestrange</p>
 			</div>
 			<div class="card">
 				<a href="#"><img class="img_album" src="./images/lucius_malefoy_portrait.jpg" alt="Photo de montagne" /></a>
-				<p class="card-text">Cherchez parmi les candidats inscrits ceux dont le profil correspond le mieux à vos attentes, et contactez-les.</p>
+				<p class="card-text">Un noble de sang pur haïssant les moldus, Lucius Malfoy</p>
 			</div>
 			<div class="card">
 				<a href="#"><img class="img_album" src="./images/severus_portrait.jpg" alt="Photo de montagne" /></a>
-				<p class="card-text">Managez vos offres d'emploi. Acceptez, refusez ou encore blacklistez les candidats.</p>
+				<p class="card-text">Le maître des potions aux intentions énigmatiques, Severus Rogue</p>
 			</div>
 		</div>
 	</div>
