@@ -6,7 +6,8 @@ Requete pour obtenir des infos sur l'auteur :
 
 Toutes les infos :
 
-prefix db_owl: <http://dbpedia.org/ontology/>
+prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+prefix dbpedia-fr: <http://fr.dbpedia.org/resource/>
 select * where {
        dbpedia-fr:Harry_Potter  dbpedia-owl:author ?author.
        ?author ?predicate ?object
